@@ -1,0 +1,9 @@
+homepage: "https://github.com/hiero-ledger/hiero-sdk-swift"
+language: swift
+primary_contact: "robert.walworth@swirldslabs.com"
+main_repo: "https://github.com/hiero-ledger/hiero-sdk-swift"
+fuzzing_engines:
+  - libfuzzer
+sanitizers:
+  - address
+  - undefined

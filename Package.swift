@@ -74,6 +74,72 @@ let exampleTargets = [
     )
 }
 
+let fuzzTargets: [Target] = [
+    .executableTarget(
+        name: "FuzzRlpDecode",
+        dependencies: ["Hiero"],
+        path: "FuzzTests",
+        sources: ["FuzzRlpDecode.swift"],
+        swiftSettings: [.unsafeFlags(["-parse-as-library"])]
+    ),
+    .executableTarget(
+        name: "FuzzTransactionFromBytes",
+        dependencies: ["Hiero"],
+        path: "FuzzTests",
+        sources: ["FuzzTransactionFromBytes.swift"],
+        swiftSettings: [.unsafeFlags(["-parse-as-library"])]
+    ),
+    .executableTarget(
+        name: "FuzzPemDecode",
+        dependencies: ["Hiero"],
+        path: "FuzzTests",
+        sources: ["FuzzPemDecode.swift"],
+        swiftSettings: [.unsafeFlags(["-parse-as-library"])]
+    ),
+    .executableTarget(
+        name: "FuzzPublicKeyFromBytes",
+        dependencies: ["Hiero"],
+        path: "FuzzTests",
+        sources: ["FuzzPublicKeyFromBytes.swift"],
+        swiftSettings: [.unsafeFlags(["-parse-as-library"])]
+    ),
+    .executableTarget(
+        name: "FuzzEthereumDataFromBytes",
+        dependencies: ["Hiero"],
+        path: "FuzzTests",
+        sources: ["FuzzEthereumDataFromBytes.swift"],
+        swiftSettings: [.unsafeFlags(["-parse-as-library"])]
+    ),
+    .executableTarget(
+        name: "FuzzMnemonicFromString",
+        dependencies: ["Hiero"],
+        path: "FuzzTests",
+        sources: ["FuzzMnemonicFromString.swift"],
+        swiftSettings: [.unsafeFlags(["-parse-as-library"])]
+    ),
+    .executableTarget(
+        name: "FuzzPrivateKeyFromBytes",
+        dependencies: ["Hiero"],
+        path: "FuzzTests",
+        sources: ["FuzzPrivateKeyFromBytes.swift"],
+        swiftSettings: [.unsafeFlags(["-parse-as-library"])]
+    ),
+    .executableTarget(
+        name: "FuzzAccountIdFromString",
+        dependencies: ["Hiero"],
+        path: "FuzzTests",
+        sources: ["FuzzAccountIdFromString.swift"],
+        swiftSettings: [.unsafeFlags(["-parse-as-library"])]
+    ),
+    .executableTarget(
+        name: "FuzzTransactionIdFromString",
+        dependencies: ["Hiero"],
+        path: "FuzzTests",
+        sources: ["FuzzTransactionIdFromString.swift"],
+        swiftSettings: [.unsafeFlags(["-parse-as-library"])]
+    ),
+]
+
 let package = Package(
     name: "Hiero",
     platforms: [
@@ -171,5 +237,5 @@ let package = Package(
                 "HieroExampleUtilities",
             ]
         ),
-    ] + exampleTargets
+    ] + exampleTargets + fuzzTargets
 )
