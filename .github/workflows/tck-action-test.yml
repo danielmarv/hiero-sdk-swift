@@ -1,0 +1,50 @@
+# Exercises hiero-hackers/hiero-tck-action against the Swift SDK's JSON-RPC server.
+# This workflow exists only on the tck-action-test branch of this fork.
+name: TCK Action Test
+
+on:
+  push:
+    branches: [tck-action-test]
+  workflow_dispatch:
+    inputs:
+      testMatrix:
+        description: "Mocha args for the TCK run. Empty runs the whole suite."
+        required: false
+        default: "src/tests/crypto-service/test-account-create-transaction.ts"
+
+permissions:
+  contents: read
+
+jobs:
+  tck:
+    name: TCK
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        # No submodules: protobufs/ only regenerates code that is committed.
+
+      - name: Prepare Hiero Solo
+        id: solo
+        uses: hiero-ledger/hiero-solo-action@6a79c9451fc1b26a98536facc3b988ab122ffbc8 # v0.24.0
+        with:
+          installMirrorNode: true
+
+      - name: Run TCK
+        id: tck
+        uses: hiero-hackers/hiero-tck-action@fix/build-context-and-cache
+        with:
+          dockerfilePath: ./Sources/HieroTCK/Dockerfile
+          serverEnv: |
+            TCK_PORT=8544
+          testMatrix: ${{ inputs.testMatrix == null && 'src/tests/crypto-service/test-account-create-transaction.ts' || inputs.testMatrix }}
+          artifactName: tck-report-swift
+
+      - name: Summarise
+        if: always()
+        run: |
+          echo "passed=${{ steps.tck.outputs.passed }} failed=${{ steps.tck.outputs.failed }} of ${{ steps.tck.outputs.total }}"
+          echo "genuine=${{ steps.tck.outputs.genuineFailures }} infra=${{ steps.tck.outputs.infraFailures }}"
+          echo "unimplemented: ${{ steps.tck.outputs.unimplementedMethods }}"

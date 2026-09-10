@@ -1,0 +1,8 @@
+# SwiftPM's scratch directory: multi-gigabyte in a working clone, and copying it
+# over the image's own resolved dependencies breaks the build.
+.build/
+
+# Only needed to regenerate Sources/HieroProtobufs/Generated, which is committed.
+protobufs/
+
+.git/
